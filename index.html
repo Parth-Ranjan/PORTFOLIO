@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parth Ranjan | System Architect</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D Robot -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
@@ -237,10 +239,9 @@
                 </div>
             </div>
 
-            <!-- Cinematic Silhouette / Visual -->
-            <div class="relative h-full hidden lg:flex items-center justify-center">
-                <!-- Updated Image Source to a reliable placeholder -->
-                <img src="https://images.unsplash.com/photo-1535378437327-2e8514941848?q=80&w=800&auto=format&fit=crop" alt="AI Generated Character" class="w-full h-auto max-h-[80%] object-contain grayscale contrast-125 brightness-75 drop-shadow-[0_0_80px_rgba(34,211,238,0.2)] rounded-sm" />
+            <!-- 3D Robot Container -->
+            <div class="relative h-full hidden lg:flex items-center justify-center" id="robot-container">
+                <!-- Three.js Canvas will be injected here -->
             </div>
         </div>
 
@@ -616,6 +617,170 @@
                 card.style.setProperty('--mouse-y', `${y}px`);
             });
         });
+
+        // --- Three.js Robot Logic ---
+        function initRobot() {
+            const container = document.getElementById('robot-container');
+            if (!container) return;
+
+            // Scene Setup
+            const scene = new THREE.Scene();
+            // Slight fog for depth
+            scene.fog = new THREE.FogExp2(0x030303, 0.05);
+
+            const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 100);
+            camera.position.z = 10;
+            camera.position.y = 0;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+
+            // Robot Head Group
+            const robotGroup = new THREE.Group();
+            const headGroup = new THREE.Group();
+            robotGroup.add(headGroup);
+            scene.add(robotGroup);
+
+            // Materials
+            const darkMetalMat = new THREE.MeshStandardMaterial({
+                color: 0x111111,
+                roughness: 0.3,
+                metalness: 0.9,
+                flatShading: true
+            });
+            
+            const glowMat = new THREE.MeshBasicMaterial({ 
+                color: 0x22d3ee 
+            });
+
+            const darkGlassMat = new THREE.MeshStandardMaterial({
+                color: 0x000000,
+                roughness: 0.1,
+                metalness: 1.0
+            });
+
+            // Geometry Construction (Procedural Low-Poly Sci-Fi Head)
+
+            // 1. Cranium (Main Head Shape) - Angular
+            const headGeo = new THREE.IcosahedronGeometry(2.5, 0);
+            const headMesh = new THREE.Mesh(headGeo, darkMetalMat);
+            headGroup.add(headMesh);
+
+            // 2. Jaw / Chin Area (Elongating the face)
+            const jawGeo = new THREE.BoxGeometry(2.2, 1.5, 2.5);
+            const jawMesh = new THREE.Mesh(jawGeo, darkMetalMat);
+            jawMesh.position.y = -1.8;
+            jawMesh.position.z = 0.2;
+            headGroup.add(jawMesh);
+
+            // 3. Eyes (Glowing Slits)
+            const eyeGeo = new THREE.BoxGeometry(0.8, 0.15, 0.5);
+            
+            const leftEye = new THREE.Mesh(eyeGeo, glowMat);
+            leftEye.position.set(-0.6, -0.3, 2.1);
+            leftEye.rotation.z = 0.1;
+            headGroup.add(leftEye);
+
+            const rightEye = new THREE.Mesh(eyeGeo, glowMat);
+            rightEye.position.set(0.6, -0.3, 2.1);
+            rightEye.rotation.z = -0.1;
+            headGroup.add(rightEye);
+
+            // 4. Visor / Forehead Plate (Glossy Black)
+            const visorGeo = new THREE.CylinderGeometry(2, 2, 0.5, 6);
+            const visorMesh = new THREE.Mesh(visorGeo, darkGlassMat);
+            visorMesh.rotation.x = Math.PI / 2;
+            visorMesh.rotation.z = Math.PI / 2; // Rotate to have flat side front
+            visorMesh.position.set(0, 0.5, 1.8);
+            visorMesh.scale.set(1, 0.5, 1);
+            headGroup.add(visorMesh);
+
+            // 5. Side Panels (Ear area detail)
+            const earGeo = new THREE.CylinderGeometry(0.8, 0.6, 0.5, 8);
+            const leftEar = new THREE.Mesh(earGeo, darkMetalMat);
+            leftEar.rotation.z = Math.PI / 2;
+            leftEar.position.set(-2.4, -0.5, 0);
+            headGroup.add(leftEar);
+
+            const rightEar = new THREE.Mesh(earGeo, darkMetalMat);
+            rightEar.rotation.z = Math.PI / 2;
+            rightEar.position.set(2.4, -0.5, 0);
+            headGroup.add(rightEar);
+
+            // 6. Neck (Floating / Disconnected look)
+            const neckGeo = new THREE.CylinderGeometry(1, 1.5, 1.5, 8);
+            const neckMesh = new THREE.Mesh(neckGeo, darkMetalMat);
+            neckMesh.position.y = -3;
+            robotGroup.add(neckMesh); // Add to robotGroup, not headGroup, so it doesn't rotate as much
+
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 2); // Soft white light
+            scene.add(ambientLight);
+
+            const dirLight = new THREE.DirectionalLight(0x22d3ee, 2); // Cyan strong light
+            dirLight.position.set(-5, 5, 5);
+            scene.add(dirLight);
+
+            const rimLight = new THREE.PointLight(0xffffff, 1, 10);
+            rimLight.position.set(5, 2, 5);
+            scene.add(rimLight);
+
+            const faceLight = new THREE.PointLight(0x22d3ee, 0.5, 5);
+            faceLight.position.set(0, 0, 4); // Glow near face
+            scene.add(faceLight);
+
+
+            // Mouse Tracking Logic
+            const mouse = new THREE.Vector2();
+            const targetRotation = new THREE.Vector2();
+            const windowHalfX = window.innerWidth / 2;
+            const windowHalfY = window.innerHeight / 2;
+
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+
+            function onDocumentMouseMove(event) {
+                mouse.x = (event.clientX - windowHalfX);
+                mouse.y = (event.clientY - windowHalfY);
+            }
+
+            function onWindowResize() {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+
+            // Animation Loop
+            function animate() {
+                requestAnimationFrame(animate);
+
+                // Smoothly interpolate rotation
+                // Target rotation based on mouse position (dampened)
+                const targetX = mouse.y * 0.0005;
+                const targetY = mouse.x * 0.0005;
+
+                // Head rotates more
+                headGroup.rotation.x += (targetX - headGroup.rotation.x) * 0.1;
+                headGroup.rotation.y += (targetY - headGroup.rotation.y) * 0.1;
+
+                // Whole body rotates slightly less
+                robotGroup.rotation.y += (targetY * 0.3 - robotGroup.rotation.y) * 0.05;
+
+                // Floating animation
+                const time = Date.now() * 0.001;
+                robotGroup.position.y = Math.sin(time) * 0.2;
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+        }
+
+        // Initialize when DOM is ready
+        window.addEventListener('DOMContentLoaded', initRobot);
+
     </script>
 </body>
 </html>
