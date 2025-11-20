@@ -1,439 +1,633 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parth Ranjan - Developer Portfolio</title>
+    <title>Parth Ranjan | System Architect</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-    <style>
-        /* Custom scrollbar for a modern look */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111827; /* dark:bg-gray-900 */
-        }
-        html.light ::-webkit-scrollbar-track {
-            background: #f3f4f6; /* light:bg-gray-100 */
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #374151; /* dark:bg-gray-700 */
-            border-radius: 4px;
-        }
-        html.light ::-webkit-scrollbar-thumb {
-            background: #d1d5db; /* light:bg-gray-300 */
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #4b5563; /* dark:bg-gray-600 */
-        }
-        html.light ::-webkit-scrollbar-thumb:hover {
-            background: #9ca3af; /* light:bg-gray-400 */
-        }
-
-        /* Base styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030712; /* dark:bg-gray-950 */
-            color: #f9fafb; /* dark:text-gray-50 */
-            transition: background-color 0.5s, color 0.5s;
-        }
-        html.light body {
-            background-color: #f9fafb; /* light:bg-gray-50 */
-            color: #111827; /* light:text-gray-900 */
-        }
-        .section {
-            padding: 8rem 1rem;
-            overflow: hidden;
-        }
-        @media (min-width: 768px) {
-            .section {
-                padding: 10rem 2rem;
-            }
-        }
-        .project-card:before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 1rem;
-            padding: 2px;
-            background: linear-gradient(45deg, #38bdf8, #a78bfa);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.3s;
-        }
-        .project-card:hover:before {
-            opacity: 1;
-        }
-        .tech-tag {
-            @apply bg-sky-400/10 text-sky-300 text-xs font-semibold px-2.5 py-1 rounded-full;
-        }
-        html.light .tech-tag {
-            @apply bg-sky-100 text-sky-800;
-        }
-    </style>
-</head>
-<body class="antialiased">
-
-    <!-- Animated Background -->
-    <canvas id="bg-canvas" class="fixed top-0 left-0 w-full h-full z-0"></canvas>
-
-    <!-- Header -->
-    <header class="fixed top-0 left-0 w-full z-50 p-4">
-        <div class="container mx-auto flex justify-end items-center">
-            <div class="flex items-center gap-4">
-                <!-- Download Resume Button -->
-                <a href="Parth Resume.pdf" download="Parth-Ranjan-Resume.pdf" class="text-sm font-semibold border px-4 py-2 rounded-full hover:bg-white/10 dark:hover:bg-white/10 light:hover:bg-black/10 transition-colors border-gray-500 dark:border-gray-500 light:border-gray-400">
-                    Download Resume
-                </a>
-                <!-- Dark/Light Mode Toggle -->
-                <button id="theme-toggle" class="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-sky-400">
-                    <svg id="theme-icon-sun" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                    <svg id="theme-icon-moon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="relative z-10">
-        <!-- Landing Section -->
-        <section id="hero" class="h-screen flex items-center justify-center text-center flex-col min-h-[600px]">
-            <div class="container mx-auto px-4">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter hero-title">
-                    <span class="inline-block">Parth</span> <span class="inline-block text-sky-400">Ranjan</span>
-                </h1>
-                <p class="mt-4 text-lg md:text-xl max-w-2xl mx-auto text-gray-300 dark:text-gray-300 light:text-gray-600 hero-subtitle">
-                    A developer crafting intelligent and beautiful digital experiences with a focus on modern web technologies and AI integration.
-                </p>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container mx-auto max-w-4xl text-center">
-                <h2 class="section-title text-4xl md:text-5xl font-bold mb-4">About Me</h2>
-                <p class="section-content text-lg md:text-xl text-gray-400 dark:text-gray-400 light:text-gray-600">
-                    I'm a Computer Science student at Vellore Institute of Technology with a passion for building robust and scalable web applications. My experience ranges from developing responsive front-end interfaces with React to integrating AI-powered features using modern APIs. I thrive on solving complex problems and continuously learning new technologies to push the boundaries of what's possible on the web.
-                </p>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <div class="container mx-auto">
-                <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-12">Featured Projects</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <!-- Project Card 1 -->
-                    <div class="project-card relative bg-gray-900/50 dark:bg-gray-900/50 light:bg-white/50 backdrop-blur-sm rounded-2xl p-8 cursor-pointer" data-project="trip-planner">
-                        <h3 class="text-2xl font-bold mb-2">AI Trip Planner</h3>
-                        <p class="text-gray-400 dark:text-gray-400 light:text-gray-600 mb-4">A full-stack travel platform that simplifies trip planning with AI-powered recommendations.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="tech-tag">React</span><span class="tech-tag">Gemini API</span><span class="tech-tag">Firebase</span>
-                        </div>
-                    </div>
-                    <!-- Project Card 2 -->
-                    <div class="project-card relative bg-gray-900/50 dark:bg-gray-900/50 light:bg-white/50 backdrop-blur-sm rounded-2xl p-8 cursor-pointer" data-project="netflix-gpt">
-                        <h3 class="text-2xl font-bold mb-2">NetflixGPT</h3>
-                        <p class="text-gray-400 dark:text-gray-400 light:text-gray-600 mb-4">An intelligent entertainment platform for personalized movie and series recommendations.</p>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="tech-tag">React</span><span class="tech-tag">Redux</span><span class="tech-tag">Tailwind CSS</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Skills Section -->
-        <section id="skills" class="section">
-            <div class="container mx-auto max-w-5xl">
-                <h2 class="section-title text-4xl md:text-5xl font-bold text-center mb-12">My Tech Stack</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div class="skill-category">
-                        <h3 class="text-xl font-bold mb-4 text-sky-400">Languages</h3>
-                        <ul class="space-y-2 text-gray-400 dark:text-gray-400 light:text-gray-600">
-                            <li>JavaScript</li><li>TypeScript</li><li>Python</li><li>SQL</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3 class="text-xl font-bold mb-4 text-sky-400">Frameworks</h3>
-                        <ul class="space-y-2 text-gray-400 dark:text-gray-400 light:text-gray-600">
-                            <li>React.js</li><li>Next.js</li><li>Node.js</li><li>Express.js</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3 class="text-xl font-bold mb-4 text-sky-400">Tools</h3>
-                        <ul class="space-y-2 text-gray-400 dark:text-gray-400 light:text-gray-600">
-                            <li>Git</li><li>Docker</li><li>MongoDB</li><li>PostgreSQL</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3 class="text-xl font-bold mb-4 text-sky-400">Platforms</h3>
-                        <ul class="space-y-2 text-gray-400 dark:text-gray-400 light:text-gray-600">
-                            <li>Firebase</li><li>AWS</li><li>Vercel</li><li>Netlify</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <footer id="contact" class="section text-center">
-            <div class="container mx-auto">
-                <h2 class="section-title text-4xl md:text-5xl font-bold mb-4">Get In Touch</h2>
-                <p class="section-content max-w-2xl mx-auto text-lg mb-8 text-gray-400 dark:text-gray-400 light:text-gray-600">I'm currently seeking new opportunities. Feel free to reach out for collaborations or just to say hello!</p>
-                <a href="mailto:sparth458@gmail.com" class="inline-block text-xl md:text-2xl font-bold text-sky-400 hover:text-sky-300 transition-colors duration-300">
-                    sparth458@gmail.com
-                </a>
-                <div class="flex justify-center gap-6 mt-8">
-                    <a href="https://github.com/Parth-Ranjan" target="_blank" class="text-gray-400 hover:text-white transition">GitHub</a>
-                    <a href="https://www.linkedin.com/in/parth-ranjan-3b5623259/" target="_blank" class="text-gray-400 hover:text-white transition">LinkedIn</a>
-                </div>
-            </div>
-        </footer>
-    </main>
-
-    <!-- Project Modal -->
-    <div id="project-modal" class="fixed inset-0 bg-black/80 backdrop-blur-lg z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
-        <div id="modal-content" class="bg-gray-900 dark:bg-gray-900 light:bg-white w-full max-w-3xl max-h-[90vh] rounded-2xl p-8 overflow-y-auto relative transform scale-95 transition-transform duration-300">
-            <button id="modal-close" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">&times;</button>
-            <div id="modal-body"></div>
-        </div>
-    </div>
-
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&family=Space+Grotesk:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // --- THEME TOGGLE ---
-            const themeToggle = document.getElementById('theme-toggle');
-            const sunIcon = document.getElementById('theme-icon-sun');
-            const moonIcon = document.getElementById('theme-icon-moon');
-            const html = document.documentElement;
-
-            const applyTheme = (theme) => {
-                if (theme === 'dark') {
-                    html.classList.add('dark');
-                    html.classList.remove('light');
-                    sunIcon.classList.remove('hidden');
-                    moonIcon.classList.add('hidden');
-                } else {
-                    html.classList.add('light');
-                    html.classList.remove('dark');
-                    sunIcon.classList.add('hidden');
-                    moonIcon.classList.remove('hidden');
-                }
-            };
-
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = html.classList.contains('dark') ? 'light' : 'dark';
-                localStorage.setItem('theme', currentTheme);
-                applyTheme(currentTheme);
-            });
-
-            const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            applyTheme(savedTheme);
-
-
-            // --- ANIMATED BACKGROUND ---
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            const mouse = { x: null, y: null };
-
-            function resizeCanvas() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            resizeCanvas();
-
-            window.addEventListener('resize', resizeCanvas);
-            window.addEventListener('mousemove', (e) => {
-                mouse.x = e.x;
-                mouse.y = e.y;
-            });
-
-            class Particle {
-                constructor() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.size = Math.random() * 2 + 1;
-                    this.speedX = Math.random() * 1 - 0.5;
-                    this.speedY = Math.random() * 1 - 0.5;
-                    this.color = html.classList.contains('dark') ? 'rgba(56, 189, 248, 0.5)' : 'rgba(59, 130, 246, 0.5)';
-                }
-                update() {
-                    this.x += this.speedX;
-                    this.y += this.speedY;
-                    if (this.size > 0.2) this.size -= 0.01;
-                    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-                }
-                draw() {
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            function initParticles() {
-                particles = [];
-                const particleCount = Math.floor(canvas.width / 20);
-                for (let i = 0; i < particleCount; i++) {
-                    particles.push(new Particle());
-                }
-            }
-            initParticles();
-
-            function animateParticles() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                for (let i = 0; i < particles.length; i++) {
-                    particles[i].update();
-                    particles[i].draw();
-                }
-                connectParticles();
-                requestAnimationFrame(animateParticles);
-            }
-            animateParticles();
-
-            function connectParticles() {
-                let opacityValue = 1;
-                for (let a = 0; a < particles.length; a++) {
-                    for (let b = a; b < particles.length; b++) {
-                        let distance = Math.sqrt(
-                            (particles[a].x - particles[b].x) * (particles[a].x - particles[b].x) +
-                            (particles[a].y - particles[b].y) * (particles[a].y - particles[b].y)
-                        );
-                        if (distance < 100) {
-                            opacityValue = 1 - (distance / 100);
-                            ctx.strokeStyle = html.classList.contains('dark') ? `rgba(56, 189, 248, ${opacityValue})` : `rgba(59, 130, 246, ${opacityValue})`;
-                            ctx.lineWidth = 0.5;
-                            ctx.beginPath();
-                            ctx.moveTo(particles[a].x, particles[a].y);
-                            ctx.lineTo(particles[b].x, particles[b].y);
-                            ctx.stroke();
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinematic: ['Cinzel', 'serif'],
+                        tech: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        void: '#030303',
+                        panel: '#0a0a0a',
+                        neon: '#e2e8f0', // Soft silver/white
+                        cyan: '#22d3ee', // Muted cyan for accents
+                        dim: '#475569',
+                    },
+                    backgroundImage: {
+                        'noise': "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.05%22/%3E%3C/svg%3E')",
+                    },
+                    animation: {
+                        'scanline': 'scanline 8s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'flicker': 'flicker 3s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100%)' },
+                        },
+                        flicker: {
+                            '0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100%': { opacity: '1' },
+                            '20%, 21.999%, 63%, 63.999%, 65%, 69.999%': { opacity: '0.4' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
                         }
                     }
                 }
             }
+        }
+    </script>
 
+    <style>
+        body {
+            background-color: #030303;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
 
-            // --- GSAP ANIMATIONS ---
-            gsap.registerPlugin(ScrollTrigger);
+        /* Global Grain */
+        .film-grain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.07'/%3E%3C/svg%3E");
+            z-index: 50;
+        }
 
-            // Hero Animation
-            gsap.from(".hero-title span", {
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out",
-                stagger: 0.2,
-                delay: 0.5
-            });
-            gsap.from(".hero-subtitle", {
-                y: 20,
-                opacity: 0,
-                duration: 1,
-                ease: "power3.out",
-                delay: 1
-            });
+        /* Spotlight Effect for Bento Grid */
+        .spotlight-card {
+            position: relative;
+            background: rgba(10, 10, 10, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.06),
+                transparent 40%
+            );
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+        }
 
-            // Section Animations on Scroll
-            const sections = gsap.utils.toArray('.section');
-            sections.forEach(section => {
-                gsap.from(section.querySelectorAll(".section-title, .section-content, .project-card, .skill-category"), {
-                    scrollTrigger: {
-                        trigger: section,
-                        start: "top 80%",
-                        end: "bottom 60%",
-                        toggleActions: "play none none none",
-                    },
-                    opacity: 0,
-                    y: 50,
-                    duration: 1,
-                    ease: "power3.out",
-                    stagger: 0.2
-                });
-            });
+        .spotlight-card:hover::before {
+            opacity: 1;
+        }
 
-            // --- PROJECT MODAL ---
-            const projectModal = document.getElementById('project-modal');
-            const modalContent = document.getElementById('modal-content');
-            const modalClose = document.getElementById('modal-close');
-            const modalBody = document.getElementById('modal-body');
-            const projectCards = document.querySelectorAll('.project-card');
+        .spotlight-card::after {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.1),
+                transparent 40%
+            );
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .spotlight-card:hover::after {
+            opacity: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-            const projectData = {
-                'trip-planner': {
-                    title: 'AI Trip Planner',
-                    description: 'A full-stack travel planning platform designed to simplify trip planning by offering personalized recommendations, interactive maps, and real-time details.',
-                    features: [
-                        'Developed the front-end using React + Shadcn/UI for a responsive design.',
-                        'Leveraged Gemini API for tailored hostel suggestions and multi-day itineraries.',
-                        'Incorporated Google Maps API to visualize real-time locations.',
-                        'Secure user login via Firebase and OAuth2.'
-                    ],
-                    tech: ['React', 'Shadcn/UI', 'Firebase', 'OAuth2', 'Gemini API', 'Google Maps API'],
-                    link: 'https://github.com/Parth-Ranjan'
-                },
-                'netflix-gpt': {
-                    title: 'NetflixGPT',
-                    description: 'An intelligent entertainment platform delivering personalized movie and series recommendations by combining real-time data and AI-driven insights.',
-                    features: [
-                        'Developed the front-end using React + Tailwind CSS.',
-                        'Used Redux for efficient state management of dynamic movie data.',
-                        'Implemented Firebase Authentication for secure user login.',
-                        'Integrated the Gemini API for AI-powered recommendations.'
-                    ],
-                    tech: ['React', 'Redux', 'Tailwind CSS', 'Firebase Auth', 'TMDB API', 'Gemini API'],
-                    link: 'https://github.com/Parth-Ranjan'
-                }
-            };
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030303;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
 
-            function openModal(projectKey) {
-                const data = projectData[projectKey];
-                if (!data) return;
+        /* Glitch Text Effect */
+        .glitch-wrapper {
+            position: relative;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .glitch::before {
+            left: 2px;
+            text-shadow: -1px 0 #ff00c1;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+        .glitch::after {
+            left: -2px;
+            text-shadow: -1px 0 #00fff9;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
 
-                modalBody.innerHTML = `
-                    <h2 class="text-3xl font-bold mb-4 text-sky-400">${data.title}</h2>
-                    <p class="text-gray-300 dark:text-gray-300 light:text-gray-700 mb-6">${data.description}</p>
-                    <h3 class="text-xl font-bold mb-2">Key Features:</h3>
-                    <ul class="list-disc list-inside mb-6 space-y-2 text-gray-400 dark:text-gray-400 light:text-gray-600">
-                        ${data.features.map(f => `<li>${f}</li>`).join('')}
-                    </ul>
-                     <h3 class="text-xl font-bold mb-2">Tech Stack:</h3>
-                    <div class="flex flex-wrap gap-2 mb-6">
-                        ${data.tech.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+        @keyframes glitch-anim {
+            0% { clip: rect(38px, 9999px, 19px, 0); }
+            20% { clip: rect(69px, 9999px, 88px, 0); }
+            40% { clip: rect(13px, 9999px, 8px, 0); }
+            60% { clip: rect(38px, 9999px, 6px, 0); }
+            80% { clip: rect(81px, 9999px, 2px, 0); }
+            100% { clip: rect(56px, 9999px, 42px, 0); }
+        }
+        @keyframes glitch-anim2 {
+            0% { clip: rect(59px, 9999px, 66px, 0); }
+            20% { clip: rect(12px, 9999px, 97px, 0); }
+            40% { clip: rect(26px, 9999px, 21px, 0); }
+            60% { clip: rect(66px, 9999px, 22px, 0); }
+            80% { clip: rect(2px, 9999px, 81px, 0); }
+            100% { clip: rect(9px, 9999px, 64px, 0); }
+        }
+
+        .crt-line {
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="selection:bg-white selection:text-black">
+
+    <!-- Atmospheric Overlay -->
+    <div class="film-grain"></div>
+    <div class="fixed inset-0 crt-line z-40 pointer-events-none opacity-20"></div>
+    
+    <!-- Hero Section -->
+    <section class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+        <!-- Background Elements -->
+        <div class="absolute inset-0 bg-gradient-to-b from-void via-void to-[#080808]"></div>
+        
+        <!-- Vertical Light Streaks -->
+        <div class="absolute top-0 left-[10%] w-[1px] h-full bg-gradient-to-b from-transparent via-white/10 to-transparent opacity-20"></div>
+        <div class="absolute top-0 right-[15%] w-[1px] h-full bg-gradient-to-b from-transparent via-cyan/10 to-transparent opacity-20"></div>
+        
+        <!-- Particles (Simulated via CSS) -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full opacity-20 animate-float" style="animation-delay: 0s;"></div>
+            <div class="absolute top-3/4 left-1/3 w-1 h-1 bg-white rounded-full opacity-10 animate-float" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 right-1/4 w-1 h-1 bg-white rounded-full opacity-30 animate-float" style="animation-delay: 4s;"></div>
+        </div>
+
+        <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-12 z-10 h-full items-center">
+            <!-- Text Content -->
+            <div class="flex flex-col justify-center space-y-8">
+                <h1 class="font-cinematic text-5xl md:text-7xl text-neon leading-[1.1] tracking-tight mix-blend-screen">
+                    <span class="glitch-wrapper">
+                        <span class="glitch" data-text="Parth Ranjan">Parth Ranjan</span>
+                    </span>
+                    <br>
+                    <span class="text-dim text-2xl md:text-4xl block mt-4 font-tech tracking-widest uppercase opacity-80">
+                        Engineering Digital Systems in the Dark
+                    </span>
+                </h1>
+                
+                <p class="font-tech text-dim text-sm md:text-base max-w-md border-l border-dim/30 pl-4 tracking-wide">
+                    Fullstack Developer • AI Engineer • Real-time Systems • Scalable Platforms
+                </p>
+
+                <div class="flex items-center gap-6 pt-4">
+                    <a href="#projects" class="group relative px-8 py-3 border border-white/20 bg-white/5 text-white font-tech text-sm tracking-widest uppercase overflow-hidden hover:border-white/60 transition-all">
+                        <div class="absolute inset-0 w-full h-full bg-white/10 translate-x-[-100%] group-hover:translate-x-0 transition-transform duration-500"></div>
+                        <span class="relative z-10">View Case Files</span>
+                    </a>
+                    <a href="#" class="text-dim hover:text-white font-tech text-sm border-b border-transparent hover:border-white transition-all pb-1">
+                        Initialize Resume_v2.pdf
+                    </a>
+                </div>
+            </div>
+
+            <!-- Cinematic Silhouette / Visual -->
+            <div class="relative h-full hidden lg:flex items-center justify-center">
+                <div class="w-[400px] h-[500px] bg-black relative overflow-hidden border border-white/5 grayscale contrast-125 brightness-50 shadow-[0_0_100px_rgba(0,0,0,0.8)]">
+                    <!-- This mimics a silhouette without needing an external image asset -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-black via-[#1a1a1a] to-black opacity-90 z-10"></div>
+                    <div class="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-black to-transparent z-20"></div>
+                    <div class="absolute top-0 left-0 w-full h-[2px] bg-cyan/20 animate-scanline z-30 box-shadow-[0_0_10px_cyan]"></div>
+                    
+                    <!-- Decorative HUD elements -->
+                    <div class="absolute top-4 right-4 text-[10px] font-tech text-white/30">
+                        SYS.01 // ONLINE
                     </div>
-                    <a href="${data.link}" target="_blank" class="inline-block bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">View on GitHub</a>
-                `;
+                    <div class="absolute bottom-4 left-4 text-[10px] font-tech text-white/30">
+                        LATENCY: 12ms
+                    </div>
+                    <!-- Silhouette shape approximation -->
+                    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200px] h-[300px] bg-[#0f0f0f] rounded-t-full blur-sm z-0"></div>
+                </div>
+            </div>
+        </div>
 
-                gsap.to(projectModal, { opacity: 1, duration: 0.3, onStart: () => projectModal.style.pointerEvents = 'all' });
-                gsap.to(modalContent, { scale: 1, duration: 0.3, ease: 'power2.out' });
-            }
+        <!-- Bottom Ticker -->
+        <div class="absolute bottom-8 left-0 w-full text-center">
+            <p class="font-tech text-[10px] md:text-xs text-dim uppercase tracking-[0.3em] animate-pulse-slow">
+                building scalable systems • crafting real-time experiences • designing smooth interfaces
+            </p>
+        </div>
+    </section>
 
-            function closeModal() {
-                gsap.to(projectModal, { opacity: 0, duration: 0.3, onComplete: () => projectModal.style.pointerEvents = 'none' });
-                gsap.to(modalContent, { scale: 0.95, duration: 0.3, ease: 'power2.in' });
-            }
+    <!-- About Section -->
+    <section class="py-32 relative bg-void border-t border-white/5">
+        <div class="container mx-auto px-6 grid md:grid-cols-12 gap-12 h-full">
+            <!-- Left: Aesthetic Vertical Name -->
+            <div class="md:col-span-2 hidden md:flex items-center justify-center border-r border-white/5 relative">
+                <h2 class="font-cinematic text-6xl text-white/10 tracking-[1em] [writing-mode:vertical-rl] rotate-180 h-full flex items-center">
+                    PARTH
+                </h2>
+            </div>
 
-            projectCards.forEach(card => {
-                card.addEventListener('click', () => openModal(card.dataset.project));
-            });
+            <!-- Right: Shadow Profile -->
+            <div class="md:col-span-10 flex flex-col justify-center space-y-12">
+                <div class="relative p-8 border border-white/5 bg-panel shadow-2xl backdrop-blur-sm">
+                    <!-- Decorative corners -->
+                    <div class="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/30"></div>
+                    <div class="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/30"></div>
+                    <div class="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/30"></div>
+                    <div class="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/30"></div>
 
-            modalClose.addEventListener('click', closeModal);
-            projectModal.addEventListener('click', (e) => {
-                if (e.target === projectModal) {
-                    closeModal();
-                }
+                    <h3 class="font-cinematic text-2xl text-white mb-6 flex items-center gap-4">
+                        <span class="w-8 h-[1px] bg-cyan/50"></span>
+                        Shadow Profile
+                    </h3>
+
+                    <div class="space-y-8 font-tech text-dim">
+                        <div>
+                            <h4 class="text-white text-lg mb-2">Fullstack Developer Intern @ SWE180</h4>
+                            <p class="text-sm leading-relaxed">
+                                Architected scalable React infrastructure supporting 5,000+ concurrent users. Engineered mission-critical dashboards resulting in a 25% UX improvement and 30% system load reduction via optimized Redis caching layers.
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-white text-lg mb-2">Technical Lead @ AI Productivity Club</h4>
+                            <p class="text-sm leading-relaxed">
+                                Commanded a squad of 10 developers. Shipped 3 AI-powered internal tools adopted by 100+ active users. Mentored junior engineers in React patterns, Node.js microservices, and Agentic AI workflows.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills: Cyber Bento Grid -->
+    <section class="py-32 px-6 bg-[#050505] relative">
+        <div class="container mx-auto">
+            <div class="flex items-end justify-between mb-12">
+                <h2 class="font-cinematic text-4xl text-white">Technical Arsenal</h2>
+                <span class="font-tech text-xs text-dim">ENCRYPTED_Grid_v4.0</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[150px]" id="bento-grid">
+                <!-- Languages -->
+                <div class="spotlight-card col-span-1 md:col-span-2 row-span-1 rounded-sm p-6 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start">
+                        <span class="font-tech text-xs text-cyan/50 group-hover:text-cyan transition-colors">LANGUAGES</span>
+                        <div class="w-2 h-2 bg-green-500/50 rounded-full animate-pulse"></div>
+                    </div>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="text-white font-tech text-sm border border-white/10 px-3 py-1 bg-white/5">JavaScript</span>
+                        <span class="text-white font-tech text-sm border border-white/10 px-3 py-1 bg-white/5">TypeScript</span>
+                        <span class="text-white font-tech text-sm border border-white/10 px-3 py-1 bg-white/5">Java</span>
+                        <span class="text-white font-tech text-sm border border-white/10 px-3 py-1 bg-white/5">Python</span>
+                        <span class="text-white font-tech text-sm border border-white/10 px-3 py-1 bg-white/5">SQL</span>
+                    </div>
+                </div>
+
+                <!-- Frameworks -->
+                <div class="spotlight-card col-span-1 md:col-span-2 row-span-2 rounded-sm p-6 flex flex-col justify-between group">
+                     <div class="flex justify-between items-start">
+                        <span class="font-tech text-xs text-cyan/50 group-hover:text-cyan transition-colors">FRAMEWORKS & CORE</span>
+                         <svg class="w-4 h-4 text-dim" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"/></svg>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <div class="text-white font-bold mb-1">React Ecosystem</div>
+                            <div class="text-dim text-xs">Next.js, Redux Toolkit, Framer Motion</div>
+                        </div>
+                        <div>
+                            <div class="text-white font-bold mb-1">Backend</div>
+                            <div class="text-dim text-xs">Node.js, Express, Hono</div>
+                        </div>
+                        <div class="col-span-2 border-t border-white/10 pt-4 mt-2">
+                             <div class="text-white font-bold mb-1">Databases</div>
+                            <div class="text-dim text-xs">PostgreSQL, MongoDB, MySQL, Redis</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI -->
+                <div class="spotlight-card col-span-1 row-span-2 rounded-sm p-6 flex flex-col justify-between group">
+                    <div class="flex justify-between items-start">
+                        <span class="font-tech text-xs text-cyan/50 group-hover:text-cyan transition-colors">ARTIFICIAL INTEL</span>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-sm text-white"><span class="w-1 h-1 bg-white"></span> LangChain</div>
+                        <div class="flex items-center gap-2 text-sm text-white"><span class="w-1 h-1 bg-white"></span> RAG Systems</div>
+                        <div class="flex items-center gap-2 text-sm text-white"><span class="w-1 h-1 bg-white"></span> LangGraph</div>
+                        <div class="flex items-center gap-2 text-sm text-white"><span class="w-1 h-1 bg-white"></span> Agentic Patterns</div>
+                    </div>
+                </div>
+
+                <!-- Tools -->
+                <div class="spotlight-card col-span-1 md:col-span-3 row-span-1 rounded-sm p-6 flex flex-col justify-between group bg-gradient-to-r from-white/5 to-transparent">
+                    <div class="flex justify-between items-start">
+                        <span class="font-tech text-xs text-cyan/50 group-hover:text-cyan transition-colors">INFRASTRUCTURE & OPS</span>
+                    </div>
+                    <div class="flex justify-between items-center font-tech text-sm text-dim">
+                        <span>Docker</span>
+                        <span>/</span>
+                        <span>AWS</span>
+                        <span>/</span>
+                        <span>Git</span>
+                        <span>/</span>
+                        <span>Firebase</span>
+                        <span>/</span>
+                        <span>CI/CD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects: Case Files -->
+    <section id="projects" class="py-32 bg-void border-y border-white/5 relative overflow-hidden">
+        <!-- Background Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20 pointer-events-none"></div>
+
+        <div class="container mx-auto px-6">
+            <h2 class="font-cinematic text-4xl text-white mb-16 text-center">Case Files</h2>
+
+            <div class="space-y-24">
+                <!-- Project 1: Spy Word -->
+                <div class="group relative grid md:grid-cols-2 gap-8 items-center">
+                    <div class="order-2 md:order-1 space-y-6">
+                        <div class="flex items-center gap-4">
+                            <span class="font-tech text-xs border border-cyan/30 text-cyan px-2 py-1">CASE #001</span>
+                            <span class="h-[1px] flex-1 bg-white/10"></span>
+                        </div>
+                        <h3 class="font-cinematic text-3xl text-white group-hover:text-cyan transition-colors">Spy Word Protocol</h3>
+                        <p class="font-tech text-dim leading-relaxed">
+                            Real-time multiplayer communication system. Achieved sub-100ms latency using Socket.IO optimized payloads. Implemented strict type-safety across the full stack via Zod and shared TypeScript interfaces.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">React</span>
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">PostgreSQL</span>
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">Zustand</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center gap-2 text-sm font-tech text-white border-b border-white/20 pb-1 hover:text-cyan hover:border-cyan transition-all">
+                            Access File <span class="text-cyan">→</span>
+                        </a>
+                    </div>
+                    <!-- Visual -->
+                    <div class="order-1 md:order-2 relative h-64 md:h-80 bg-panel border-t-4 border-cyan/50 rounded-sm p-6 transform group-hover:scale-[1.02] transition-transform duration-700">
+                        <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-cyan/10 to-transparent"></div>
+                        <!-- Tab UI -->
+                        <div class="absolute -top-4 left-0 bg-cyan/50 px-4 py-1 text-[10px] font-bold text-black">CONFIDENTIAL</div>
+                        
+                        <div class="h-full w-full border border-white/5 flex items-center justify-center bg-grid-white/[0.02]">
+                             <div class="text-center">
+                                <div class="text-4xl mb-2 opacity-20">🕵️‍♂️</div>
+                                <div class="font-tech text-xs text-dim tracking-widest">MULTIPLAYER SOCKET LINK</div>
+                                <div class="text-cyan text-xs animate-pulse mt-2">● LIVE CONNECTION</div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: WatchWise -->
+                <div class="group relative grid md:grid-cols-2 gap-8 items-center">
+                    <!-- Visual -->
+                    <div class="relative h-64 md:h-80 bg-[#050505] border-x-4 border-dashed border-white/20 rounded-sm p-6 transform group-hover:scale-[1.02] transition-transform duration-700 overflow-hidden">
+                         <!-- Film Strip Effect -->
+                         <div class="absolute top-0 left-0 w-full h-full bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmZmZmMDMiLz4KPC9zdmc+')] opacity-20"></div>
+                         <div class="h-full flex items-center justify-center">
+                             <div class="w-full max-w-xs p-4 border border-white/10 bg-black/50 backdrop-blur-md">
+                                 <div class="h-2 w-1/2 bg-white/20 mb-2 rounded-sm"></div>
+                                 <div class="h-2 w-3/4 bg-white/10 mb-4 rounded-sm"></div>
+                                 <div class="grid grid-cols-3 gap-2">
+                                     <div class="aspect-[2/3] bg-white/5"></div>
+                                     <div class="aspect-[2/3] bg-white/5"></div>
+                                     <div class="aspect-[2/3] bg-white/5"></div>
+                                 </div>
+                             </div>
+                         </div>
+                    </div>
+
+                    <div class="space-y-6">
+                         <div class="flex items-center gap-4">
+                            <span class="font-tech text-xs border border-white/30 text-white px-2 py-1">CASE #002</span>
+                            <span class="h-[1px] flex-1 bg-white/10"></span>
+                        </div>
+                        <h3 class="font-cinematic text-3xl text-white group-hover:text-cyan transition-colors">WatchWise Engine</h3>
+                        <p class="font-tech text-dim leading-relaxed">
+                            AI-driven recommendation engine optimizing over 10,000 titles via Gemini API. Implemented Redux Toolkit for state management, achieving a 40% reduction in initial load times. Secured via Firebase OAuth 2.0.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">MERN</span>
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">Gemini API</span>
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">Redux</span>
+                        </div>
+                         <a href="#" class="inline-flex items-center gap-2 text-sm font-tech text-white border-b border-white/20 pb-1 hover:text-cyan hover:border-cyan transition-all">
+                            Access File <span class="text-cyan">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: YatriAI -->
+                <div class="group relative grid md:grid-cols-2 gap-8 items-center">
+                     <div class="order-2 md:order-1 space-y-6">
+                        <div class="flex items-center gap-4">
+                            <span class="font-tech text-xs border border-white/30 text-white px-2 py-1">CASE #003</span>
+                            <span class="h-[1px] flex-1 bg-white/10"></span>
+                        </div>
+                        <h3 class="font-cinematic text-3xl text-white group-hover:text-cyan transition-colors">YatriAI Navigator</h3>
+                        <p class="font-tech text-dim leading-relaxed">
+                            Generative AI trip planner integrating Google Maps API for real-time logistics. Optimized for accessibility scoring 95% on Lighthouse. Generates bespoke itineraries based on unstructured user prompts.
+                        </p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">Google Maps</span>
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">Generative AI</span>
+                            <span class="text-xs font-tech text-white/50 bg-white/5 px-2 py-1">Node.js</span>
+                        </div>
+                        <a href="#" class="inline-flex items-center gap-2 text-sm font-tech text-white border-b border-white/20 pb-1 hover:text-cyan hover:border-cyan transition-all">
+                            Access File <span class="text-cyan">→</span>
+                        </a>
+                    </div>
+                    <!-- Visual -->
+                    <div class="order-1 md:order-2 relative h-64 md:h-80 bg-[#0a0a0a] border border-white/10 rounded-sm p-6 transform group-hover:scale-[1.02] transition-transform duration-700 overflow-hidden">
+                        <!-- Map Grid -->
+                        <div class="absolute inset-0 bg-[linear-gradient(0deg,transparent_24%,rgba(34,211,238,0.05)_25%,rgba(34,211,238,0.05)_26%,transparent_27%,transparent_74%,rgba(34,211,238,0.05)_75%,rgba(34,211,238,0.05)_76%,transparent_77%,transparent),linear-gradient(90deg,transparent_24%,rgba(34,211,238,0.05)_25%,rgba(34,211,238,0.05)_26%,transparent_27%,transparent_74%,rgba(34,211,238,0.05)_75%,rgba(34,211,238,0.05)_76%,transparent_77%,transparent)] bg-[length:30px_30px]"></div>
+                        
+                        <!-- Waypoints -->
+                        <div class="absolute top-1/3 left-1/4 w-2 h-2 bg-cyan rounded-full shadow-[0_0_10px_cyan]"></div>
+                        <div class="absolute bottom-1/3 right-1/4 w-2 h-2 bg-white rounded-full"></div>
+                        <!-- Path -->
+                        <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                            <path d="M 100 100 Q 200 150 300 200" stroke="#22d3ee" stroke-width="1" fill="none" stroke-dasharray="5,5" class="opacity-50" />
+                        </svg>
+                        <div class="absolute bottom-4 right-4 font-tech text-[10px] text-cyan">GPS: ACTIVE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline & Certs -->
+    <section class="py-32 bg-void relative">
+        <div class="container mx-auto px-6 grid md:grid-cols-2 gap-24">
+            
+            <!-- Timeline -->
+            <div>
+                <h3 class="font-cinematic text-2xl text-white mb-12">Chronology</h3>
+                <div class="relative border-l border-white/10 pl-8 space-y-12">
+                    <!-- Node -->
+                    <div class="relative group">
+                        <div class="absolute -left-[37px] top-1 w-4 h-4 bg-void border border-white/30 rounded-full group-hover:border-cyan group-hover:shadow-[0_0_10px_cyan] transition-all"></div>
+                        <span class="text-xs font-tech text-cyan mb-1 block">2025</span>
+                        <h4 class="text-white font-bold">SWE180 Intern</h4>
+                        <p class="text-sm text-dim mt-1">Fullstack Infrastructure & Dashboard Optimization</p>
+                    </div>
+                    <!-- Node -->
+                    <div class="relative group">
+                        <div class="absolute -left-[37px] top-1 w-4 h-4 bg-void border border-white/30 rounded-full group-hover:border-cyan group-hover:shadow-[0_0_10px_cyan] transition-all"></div>
+                        <span class="text-xs font-tech text-cyan mb-1 block">2023 - 2024</span>
+                        <h4 class="text-white font-bold">Tech Lead - AI Productivity Club</h4>
+                        <p class="text-sm text-dim mt-1">Leadership, Tool Development, Mentorship</p>
+                    </div>
+                     <!-- Node -->
+                     <div class="relative group">
+                        <div class="absolute -left-[37px] top-1 w-4 h-4 bg-void border border-white/30 rounded-full group-hover:border-cyan group-hover:shadow-[0_0_10px_cyan] transition-all"></div>
+                        <span class="text-xs font-tech text-cyan mb-1 block">Award</span>
+                        <h4 class="text-white font-bold">HackByte 2nd Runner-up</h4>
+                        <p class="text-sm text-dim mt-1">Distinction among 200+ teams</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications -->
+            <div>
+                <h3 class="font-cinematic text-2xl text-white mb-12">Clearance Badges</h3>
+                <div class="space-y-4">
+                    <!-- Badge -->
+                    <div class="flex items-center justify-between p-4 bg-gradient-to-r from-white/5 to-transparent border-l-2 border-white/20 hover:border-cyan transition-all group">
+                        <div>
+                            <h4 class="text-white font-bold text-sm">AWS Cloud Foundations</h4>
+                            <p class="text-xs text-dim font-tech">Architecting Solutions</p>
+                        </div>
+                        <div class="opacity-0 group-hover:opacity-100 text-cyan text-xs font-tech transition-opacity">VERIFIED</div>
+                    </div>
+                    <!-- Badge -->
+                    <div class="flex items-center justify-between p-4 bg-gradient-to-r from-white/5 to-transparent border-l-2 border-white/20 hover:border-cyan transition-all group">
+                        <div>
+                            <h4 class="text-white font-bold text-sm">Oracle OCI Gen AI</h4>
+                            <p class="text-xs text-dim font-tech">Generative AI Professional</p>
+                        </div>
+                         <div class="opacity-0 group-hover:opacity-100 text-cyan text-xs font-tech transition-opacity">VERIFIED</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Terminal -->
+    <section class="py-32 bg-[#030303] border-t border-white/5 relative">
+        <div class="container mx-auto px-6 max-w-2xl text-center">
+            <h2 class="font-cinematic text-4xl text-white mb-8">Initialize Contact</h2>
+            
+            <div class="bg-black border border-white/10 p-8 text-left shadow-2xl relative overflow-hidden">
+                <!-- CRT Scanline for container -->
+                <div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)50%,rgba(0,0,0,0.25)50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%] opacity-20"></div>
+
+                <form class="space-y-6 relative z-10">
+                    <div class="space-y-1">
+                        <label class="font-tech text-xs text-dim uppercase">User_ID</label>
+                        <input type="text" class="w-full bg-transparent border-b border-white/20 py-2 text-white font-tech focus:outline-none focus:border-cyan transition-colors" placeholder="Enter Name">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-tech text-xs text-dim uppercase">Comms_Link</label>
+                        <input type="email" class="w-full bg-transparent border-b border-white/20 py-2 text-white font-tech focus:outline-none focus:border-cyan transition-colors" placeholder="Enter Email">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="font-tech text-xs text-dim uppercase">Payload</label>
+                        <textarea class="w-full bg-transparent border-b border-white/20 py-2 text-white font-tech focus:outline-none focus:border-cyan transition-colors h-24 resize-none" placeholder="Let's build something powerful..."></textarea>
+                    </div>
+
+                    <button class="w-full py-4 bg-white/5 border border-white/10 text-white font-tech uppercase tracking-widest hover:bg-cyan hover:text-black hover:border-cyan transition-all group">
+                        <span class="group-hover:animate-pulse">Execute Protocol ></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-black border-t border-white/10 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-cyan/5 opacity-20 animate-scanline pointer-events-none"></div>
+        
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <div class="font-cinematic text-lg text-white tracking-widest relative z-10">PR<span class="text-cyan">.</span></div>
+            
+            <div class="flex gap-6 font-tech text-xs text-dim relative z-10">
+                <a href="#" class="hover:text-white transition-colors">GITHUB</a>
+                <a href="#" class="hover:text-white transition-colors">LINKEDIN</a>
+                <a href="#" class="hover:text-white transition-colors">MAIL</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Spotlight Effect for Bento Grid
+        const cards = document.querySelectorAll('.spotlight-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
             });
         });
     </script>
